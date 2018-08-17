@@ -9,7 +9,6 @@
 // routines.  The (higher-level) system call implementations
 // are in sysfile.c.
 
-
 #include "types.h"
 #include "defs.h"
 #include "param.h"
@@ -22,9 +21,6 @@
 #include "buf.h"
 #include "file.h"
 //#include "date.h"
-
-
-
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 static void itrunc(struct inode *);
@@ -216,7 +212,7 @@ ialloc(uint dev, short type)
     { // a free inode
       memset(dip, 0, sizeof(*dip));
       dip->type = type;
-     
+
       log_write(bp); // mark it allocated on the disk
       brelse(bp);
       return iget(dev, inum);
@@ -241,15 +237,15 @@ void iupdate(struct inode *ip)
   dip->major = ip->major;
   dip->minor = ip->minor;
   dip->nlink = ip->nlink;
-  
+
   dip->size = ip->size;
   //adding time fields
-   dip->second = ip->second;
-dip->minute = ip->minute;
- dip->hour = ip->hour;
- dip->day = ip->day;
- dip->month = ip->month;
- dip->year = ip->year;
+  dip->second = ip->second;
+  dip->minute = ip->minute;
+  dip->hour = ip->hour;
+  dip->day = ip->day;
+  dip->month = ip->month;
+  dip->year = ip->year;
   memmove(dip->addrs, ip->addrs, sizeof(ip->addrs));
   log_write(bp);
   brelse(bp);
@@ -327,11 +323,11 @@ void ilock(struct inode *ip)
     ip->size = dip->size;
     //adding time fields
     ip->second = dip->second;
-   ip->minute = dip->minute;
- ip->hour = dip->hour;
-  ip->day = dip->day;
-  ip->month = dip->month;
-  ip->year = dip->year;
+    ip->minute = dip->minute;
+    ip->hour = dip->hour;
+    ip->day = dip->day;
+    ip->month = dip->month;
+    ip->year = dip->year;
     memmove(ip->addrs, dip->addrs, sizeof(ip->addrs));
     brelse(bp);
     ip->valid = 1;
@@ -477,16 +473,16 @@ void stati(struct inode *ip, struct stat *st)
   st->dev = ip->dev;
   st->ino = ip->inum;
   st->type = ip->type;
-  
+
   st->nlink = ip->nlink;
   st->size = ip->size;
   //adding time fields
   st->second = ip->second;
- st->minute = ip->minute;
- st->hour = ip->hour;
- st->day = ip->day;
- st->month = ip->month;
- st->year = ip->year;
+  st->minute = ip->minute;
+  st->hour = ip->hour;
+  st->day = ip->day;
+  st->month = ip->month;
+  st->year = ip->year;
 }
 
 //PAGEBREAK!

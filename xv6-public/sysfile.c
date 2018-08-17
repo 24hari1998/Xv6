@@ -276,15 +276,15 @@ create(char *path, short type, short major, short minor)
   r.hour = 0;
   r.day = 0;
   r.month = 0;
- r.year = 0;
+  r.year = 0;
 
   cmostime(&r);
   ip->second = r.second;
- ip->minute = r.minute;
- ip->hour = r.hour;
- ip->day = r.day;
- ip->month = r.month;
- ip->year = r.year;
+  ip->minute = r.minute;
+  ip->hour = r.hour;
+  ip->day = r.day;
+  ip->month = r.month;
+  ip->year = r.year;
   iupdate(ip);
 
   if (type == T_DIR)
@@ -476,5 +476,10 @@ int sys_pipe(void)
 
 int sys_getlast(void)
 {
-  return 0;
+  struct file *f;
+  struct stat *st;
+
+  if (argfd(0, 0, &f) < 0 || argptr(1, (void *)&st, sizeof(*st)) < 0)
+    return -1;
+  return filestat(f, st);
 }
