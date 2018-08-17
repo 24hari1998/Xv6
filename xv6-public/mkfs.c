@@ -4,7 +4,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <assert.h>
-
+#include <time.h>
 #define stat xv6_stat  // avoid clash with host struct stat
 #include "types.h"
 #include "fs.h"
@@ -230,6 +230,17 @@ ialloc(ushort type)
   din.type = xshort(type);
   din.nlink = xshort(1);
   din.size = xint(0);
+  //time included
+  time_t totalTime;
+  struct tm * date;
+  time(&totalTime);
+  date = gmtime(&totalTime);
+  din.second = date->tm_sec;
+  din.minute = date->tm_min;
+  din.hour = date->tm_hour;
+  din.day = date->tm_mday;
+  din.month = date->tm_mon;
+  din.year = date->tm_year;
   winode(inum, &din);
   return inum;
 }

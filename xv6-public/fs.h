@@ -1,9 +1,11 @@
 // On-disk file system format.
 // Both the kernel and user programs use this header file.
 
+
+
 #define ROOTINO 1 // root i-number
 #define BSIZE 512 // block size
-
+//#include "date.h"
 // Disk layout:
 // [ boot block | super block | log | inode blocks |
 //                                          free bit map | data blocks]
@@ -21,7 +23,7 @@ struct superblock
   uint bmapstart;  // Block number of first free map block
 };
 
-#define NDIRECT 12
+#define NDIRECT 22
 #define NINDIRECT (BSIZE / sizeof(uint))
 #define MAXFILE (NDIRECT + NINDIRECT)
 
@@ -34,7 +36,12 @@ struct dinode
   short nlink;             // Number of links to inode in file system
   uint size;               // Size of file (bytes)
   uint addrs[NDIRECT + 1]; // Data block addresses
-  time_t ltime;
+   uint second;
+ uint minute;
+ uint hour;
+ uint day;
+ uint month;
+uint year;
 };
 
 // Inodes per block.

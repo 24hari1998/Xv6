@@ -1,3 +1,5 @@
+
+
 struct file
 {
   enum
@@ -29,7 +31,13 @@ struct inode
   short nlink;
   uint size;
   uint addrs[NDIRECT + 1];
-  time_t ltime; // Last modified time
+  //adding fields for time
+  uint second;
+  uint minute;
+  uint hour;
+  uint day;
+  uint month;
+uint year;
 };
 
 // table mapping major device number to
